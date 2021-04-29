@@ -1,0 +1,33 @@
+name: app
+description: A mobile application.
+
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  flutter_inappwebview: ^5.3.2
+  google_nav_bar: ^5.0.5
+  line_icons: ^2.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.8.1
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/short_logo.png"
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
