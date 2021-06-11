@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class WebViewExample extends StatefulWidget {
   @override
@@ -9,13 +10,12 @@ class WebViewExample extends StatefulWidget {
 }
 
 class _WebViewExampleState extends State<WebViewExample> {
-  final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
+  final Completer _controller = Completer();
 
   @override
   void initState() {
     super.initState();
-    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+    // if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
   }
 
   @override
@@ -63,14 +63,13 @@ class NavigationControls extends StatelessWidget {
   const NavigationControls(this._webViewControllerFuture)
       : assert(_webViewControllerFuture != null);
 
-  final Future<WebViewController> _webViewControllerFuture;
+  final Future _webViewControllerFuture;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<WebViewController>(
+    return FutureBuilder(
       future: _webViewControllerFuture,
-      builder:
-          (BuildContext context, AsyncSnapshot<WebViewController> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
         final bool webViewReady =
             snapshot.connectionState == ConnectionState.done;
         final WebViewController controller = snapshot.data;
