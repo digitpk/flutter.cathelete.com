@@ -3,13 +3,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:app/config/config.dart';
+import 'package:provider/provider.dart';
+import 'package:app/bloc/app_login_type_bloc.dart';
 
-class HomePage extends StatefulWidget {
+class ChatPage extends StatefulWidget {
   @override
-  _HomePageState createState() => new _HomePageState();
+  _ChatPageState createState() => new _ChatPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ChatPageState extends State<ChatPage> {
   final GlobalKey webViewKey = GlobalKey();
 
   InAppWebViewController webViewController;
@@ -86,6 +88,14 @@ class _HomePageState extends State<HomePage> {
           actions: <Widget>[
             // ignore: deprecated_member_use
             FlatButton(
+              child: Text('Login As User'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+                setAppLoginType('user');
+              },
+            ),
+            // ignore: deprecated_member_use
+            FlatButton(
               child: Text('No'),
               onPressed: () => Navigator.of(context).pop(false),
             ),
@@ -99,6 +109,12 @@ class _HomePageState extends State<HomePage> {
         ),
       );
     }
+  }
+
+  void setAppLoginType(String loginType) async {
+    final AppLoginTypeBloc altb =
+        Provider.of<AppLoginTypeBloc>(context, listen: false);
+    altb.setAppLoginType(loginType);
   }
 
   @override
@@ -221,8 +237,8 @@ class _HomePageState extends State<HomePage> {
                             child: InAppWebView(
                               key: webViewKey,
                               initialUrlRequest: URLRequest(
-                                  url: Uri.parse(Config().webView[
-                                      'manage_admin_cathelete_page']['url'])),
+                                  url: Uri.parse(
+                                      Config().webView['chat_page']['url'])),
                               initialUserScripts:
                                   UnmodifiableListView<UserScript>([]),
                               initialOptions: options,
@@ -266,7 +282,6 @@ class _HomePageState extends State<HomePage> {
                                   IsLoadError = true;
                                 });
                                 pullToRefreshController.endRefreshing();
-                                print('${code} ${message}');
                               },
                               onProgressChanged: (controller, progress) {
                                 if (progress == 100) {

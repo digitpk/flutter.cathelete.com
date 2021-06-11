@@ -3,13 +3,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:app/config/config.dart';
+import 'package:provider/provider.dart';
+import 'package:app/bloc/app_login_type_bloc.dart';
 
-class ShopPage extends StatefulWidget {
+class ZoomPage extends StatefulWidget {
   @override
-  _ShopPageState createState() => new _ShopPageState();
+  _ZoomPageState createState() => new _ZoomPageState();
 }
 
-class _ShopPageState extends State<ShopPage> {
+class _ZoomPageState extends State<ZoomPage> {
   final GlobalKey webViewKey = GlobalKey();
 
   InAppWebViewController webViewController;
@@ -86,6 +88,14 @@ class _ShopPageState extends State<ShopPage> {
           actions: <Widget>[
             // ignore: deprecated_member_use
             FlatButton(
+              child: Text('Login As User'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+                setAppLoginType('user');
+              },
+            ),
+            // ignore: deprecated_member_use
+            FlatButton(
               child: Text('No'),
               onPressed: () => Navigator.of(context).pop(false),
             ),
@@ -99,6 +109,12 @@ class _ShopPageState extends State<ShopPage> {
         ),
       );
     }
+  }
+
+  void setAppLoginType(String loginType) async {
+    final AppLoginTypeBloc altb =
+        Provider.of<AppLoginTypeBloc>(context, listen: false);
+    altb.setAppLoginType(loginType);
   }
 
   @override
@@ -222,7 +238,7 @@ class _ShopPageState extends State<ShopPage> {
                               key: webViewKey,
                               initialUrlRequest: URLRequest(
                                   url: Uri.parse(
-                                      Config().webView['shop_page']['url'])),
+                                      Config().webView['zoom_page']['url'])),
                               initialUserScripts:
                                   UnmodifiableListView<UserScript>([]),
                               initialOptions: options,

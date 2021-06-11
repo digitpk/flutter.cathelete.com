@@ -3,13 +3,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:app/config/config.dart';
+import 'package:provider/provider.dart';
+import 'package:app/bloc/app_login_type_bloc.dart';
 
-class ZoomPage extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _ZoomPageState createState() => new _ZoomPageState();
+  _HomePageState createState() => new _HomePageState();
 }
 
-class _ZoomPageState extends State<ZoomPage> {
+class _HomePageState extends State<HomePage> {
   final GlobalKey webViewKey = GlobalKey();
 
   InAppWebViewController webViewController;
@@ -86,9 +88,18 @@ class _ZoomPageState extends State<ZoomPage> {
           actions: <Widget>[
             // ignore: deprecated_member_use
             FlatButton(
-              child: Text('No'),
-              onPressed: () => Navigator.of(context).pop(false),
+              child: Text('Login As User'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+                setAppLoginType('user');
+              },
             ),
+            // ignore: deprecated_member_use
+            FlatButton(
+                child: Text('No'),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                }),
             // ignore: deprecated_member_use
             FlatButton(
               child: Text('Yes'),
@@ -99,6 +110,12 @@ class _ZoomPageState extends State<ZoomPage> {
         ),
       );
     }
+  }
+
+  void setAppLoginType(String loginType) async {
+    final AppLoginTypeBloc altb =
+        Provider.of<AppLoginTypeBloc>(context, listen: false);
+    altb.setAppLoginType(loginType);
   }
 
   @override
@@ -221,8 +238,8 @@ class _ZoomPageState extends State<ZoomPage> {
                             child: InAppWebView(
                               key: webViewKey,
                               initialUrlRequest: URLRequest(
-                                  url: Uri.parse(
-                                      Config().webView['zoom_page']['url'])),
+                                  url: Uri.parse(Config().webView[
+                                      'manage_admin_cathelete_page']['url'])),
                               initialUserScripts:
                                   UnmodifiableListView<UserScript>([]),
                               initialOptions: options,
@@ -266,6 +283,7 @@ class _ZoomPageState extends State<ZoomPage> {
                                   IsLoadError = true;
                                 });
                                 pullToRefreshController.endRefreshing();
+                                print('${code} ${message}');
                               },
                               onProgressChanged: (controller, progress) {
                                 if (progress == 100) {

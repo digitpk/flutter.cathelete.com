@@ -3,13 +3,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:app/config/config.dart';
+import 'package:provider/provider.dart';
+import 'package:app/bloc/app_login_type_bloc.dart';
 
-class ChatPage extends StatefulWidget {
+class ShopPage extends StatefulWidget {
   @override
-  _ChatPageState createState() => new _ChatPageState();
+  _ShopPageState createState() => new _ShopPageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _ShopPageState extends State<ShopPage> {
   final GlobalKey webViewKey = GlobalKey();
 
   InAppWebViewController webViewController;
@@ -86,6 +88,14 @@ class _ChatPageState extends State<ChatPage> {
           actions: <Widget>[
             // ignore: deprecated_member_use
             FlatButton(
+              child: Text('Login As User'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+                setAppLoginType('user');
+              },
+            ),
+            // ignore: deprecated_member_use
+            FlatButton(
               child: Text('No'),
               onPressed: () => Navigator.of(context).pop(false),
             ),
@@ -99,6 +109,12 @@ class _ChatPageState extends State<ChatPage> {
         ),
       );
     }
+  }
+
+  void setAppLoginType(String loginType) async {
+    final AppLoginTypeBloc altb =
+        Provider.of<AppLoginTypeBloc>(context, listen: false);
+    altb.setAppLoginType(loginType);
   }
 
   @override
@@ -169,11 +185,13 @@ class _ChatPageState extends State<ChatPage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   IsLoadErrorCode == -2
-                                      ? Text('No internet connection',
+                                      ? Text(
+                                          'No internet connection',
                                           style: TextStyle(
                                               color: Colors.grey[800],
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 20))
+                                              fontSize: 20),
+                                        )
                                       : Text('Something went wrong',
                                           style: TextStyle(
                                               color: Colors.grey[800],
@@ -222,7 +240,7 @@ class _ChatPageState extends State<ChatPage> {
                               key: webViewKey,
                               initialUrlRequest: URLRequest(
                                   url: Uri.parse(
-                                      Config().webView['chat_page']['url'])),
+                                      Config().webView['shop_page']['url'])),
                               initialUserScripts:
                                   UnmodifiableListView<UserScript>([]),
                               initialOptions: options,
