@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:app/config/config.dart';
+import 'package:provider/provider.dart';
+import 'package:app/bloc/app_login_type_bloc.dart';
 
 class CatheleteNewsPage extends StatefulWidget {
   @override
@@ -86,6 +88,14 @@ class _CatheleteNewsPageState extends State<CatheleteNewsPage> {
           actions: <Widget>[
             // ignore: deprecated_member_use
             FlatButton(
+              child: Text('Login As User'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+                setAppLoginType('user');
+              },
+            ),
+            // ignore: deprecated_member_use
+            FlatButton(
               child: Text('No'),
               onPressed: () => Navigator.of(context).pop(false),
             ),
@@ -99,6 +109,12 @@ class _CatheleteNewsPageState extends State<CatheleteNewsPage> {
         ),
       );
     }
+  }
+
+  void setAppLoginType(String loginType) async {
+    final AppLoginTypeBloc altb =
+        Provider.of<AppLoginTypeBloc>(context, listen: false);
+    altb.setAppLoginType(loginType);
   }
 
   @override

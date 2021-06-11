@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:app/config/config.dart';
-import 'package:app/page/home.dart';
-import 'package:app/page/cathelete_news.dart';
-import 'package:app/page/chat.dart';
-import 'package:app/page/shop.dart';
-import 'package:app/page/zoom.dart';
+import 'package:app/page/business/home.dart';
+import 'package:app/page/business/cathelete_news.dart';
+import 'package:app/page/business/chat.dart';
+import 'package:app/page/business/shop.dart';
+import 'package:app/page/business/zoom.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 
-class AccessPoint extends StatefulWidget {
+class BusinessAccessPoint extends StatefulWidget {
   @override
-  _AccessPointState createState() => new _AccessPointState();
+  _BusinessAccessPointState createState() => new _BusinessAccessPointState();
 }
 
-class _AccessPointState extends State<AccessPoint>
+class _BusinessAccessPointState extends State<BusinessAccessPoint>
     with SingleTickerProviderStateMixin {
   final GlobalKey webViewKey = GlobalKey();
 
